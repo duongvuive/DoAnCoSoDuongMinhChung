@@ -8,7 +8,7 @@ namespace WebBanHangOnline.Models.SQL
     public partial class dbWebBanHang : DbContext
     {
         public dbWebBanHang()
-            : base("name=dbWebBanHang")
+            : base("name=DefaultConnection")
         {
         }
 

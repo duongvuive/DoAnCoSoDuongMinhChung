@@ -299,6 +299,7 @@ namespace WebBanHangOnline.Migrations
                     })
                 .PrimaryKey(t => t.DistrictId)
                 .ForeignKey("dbo.City", t => t.CityId, cascadeDelete: false)
+                .Index(t => t.Name, unique: true)
                 .Index(t => t.DistrictId);
 
             CreateTable(
@@ -311,6 +312,7 @@ namespace WebBanHangOnline.Migrations
                    })
                .PrimaryKey(t => t.WardId)
                .ForeignKey("dbo.District", t => t.DistrictId, cascadeDelete: false)
+               .Index(t => t.Name, unique: true)
                .Index(t => t.WardId);
             CreateTable(
                 "dbo.Customer",
