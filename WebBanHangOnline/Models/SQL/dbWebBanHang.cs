@@ -25,6 +25,11 @@ namespace WebBanHangOnline.Models.SQL
                 .HasForeignKey(e => e.City)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<City>()
+                .HasMany(e => e.Districts)
+                .WithRequired(e => e.City)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<District>()
                 .HasMany(e => e.Customers)
                 .WithRequired(e => e.District1)
@@ -33,8 +38,8 @@ namespace WebBanHangOnline.Models.SQL
 
             modelBuilder.Entity<District>()
                 .HasMany(e => e.Wards)
-                .WithMany(e => e.Districts)
-                .Map(m => m.ToTable("DistrictDetails").MapLeftKey("DistrictId").MapRightKey("WardId"));
+                .WithRequired(e => e.District)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Ward>()
                 .HasMany(e => e.Customers)

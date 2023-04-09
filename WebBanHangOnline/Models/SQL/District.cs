@@ -22,6 +22,10 @@ namespace WebBanHangOnline.Models.SQL
         [StringLength(100)]
         public string Name { get; set; }
 
+        public int CityId { get; set; }
+
+        public virtual City City { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customers { get; set; }
 

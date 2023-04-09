@@ -13,6 +13,7 @@ namespace WebBanHangOnline.Models.SQL
         public City()
         {
             Customers = new HashSet<Customer>();
+            Districts = new HashSet<District>();
         }
 
         public int CityId { get; set; }
@@ -23,5 +24,8 @@ namespace WebBanHangOnline.Models.SQL
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customers { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<District> Districts { get; set; }
     }
 }
