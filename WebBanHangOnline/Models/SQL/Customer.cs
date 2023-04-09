@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-
-namespace WebBanHangOnline.Models.EF
+namespace WebBanHangOnline.Models.SQL
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
     [Table("Customer")]
-    public class Customer: CommonAbstract
+    public partial class Customer
     {
         public string CustomerID { get; set; }
 
@@ -37,7 +36,6 @@ namespace WebBanHangOnline.Models.EF
         public DateTime DateCreated { get; set; }
 
         public DateTime LastUpdated { get; set; }
-
 
         public virtual City City1 { get; set; }
 

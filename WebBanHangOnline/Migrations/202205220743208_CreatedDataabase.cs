@@ -288,20 +288,6 @@ namespace WebBanHangOnline.Migrations
                 .PrimaryKey(t => t.CityId)
                 .Index(t => t.CityId);
 
-            CreateTable(
-                "dbo.CityDetails",
-                c => new
-                {
-                    CityId = c.Int(nullable: false),
-                    DistrictId = c.Int(nullable: false),
-                })
-                .PrimaryKey(t => new { t.CityId, t.DistrictId })
-                .ForeignKey("dbo.City", t => t.CityId, cascadeDelete: false)
-                .ForeignKey("dbo.District", t => t.DistrictId, cascadeDelete: false)
-                .Index(t => t.CityId,unique:false)
-                .Index(t => t.DistrictId, unique: true);
-
-
 
             CreateTable(
                 "dbo.District",
@@ -309,22 +295,11 @@ namespace WebBanHangOnline.Migrations
                     {
                         DistrictId = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 100),
+                        CityId= c.Int(nullable: false)
                     })
                 .PrimaryKey(t => t.DistrictId)
+                .ForeignKey("dbo.City", t => t.CityId, cascadeDelete: false)
                 .Index(t => t.DistrictId);
-
-            CreateTable(
-                "dbo.DistrictDetails",
-                    c => new
-                    {
-                        DistrictId = c.Int(nullable: false),
-                        WardId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.DistrictId, t.WardId })
-                .ForeignKey("dbo.District", t => t.DistrictId, cascadeDelete: false)
-                .ForeignKey("dbo.Ward", t => t.WardId, cascadeDelete: false)
-                .Index(t => t.DistrictId,unique:false)
-                .Index(t => t.WardId, unique: true);
 
             CreateTable(
                "dbo.Ward",
@@ -332,8 +307,10 @@ namespace WebBanHangOnline.Migrations
                    {
                        WardId = c.Int(nullable: false, identity: true),
                        Name = c.String(nullable: false, maxLength: 100),
+                       DistrictId= c.Int(nullable: false)
                    })
                .PrimaryKey(t => t.WardId)
+               .ForeignKey("dbo.District", t => t.DistrictId, cascadeDelete: false)
                .Index(t => t.WardId);
             CreateTable(
                 "dbo.Customer",
@@ -376,10 +353,8 @@ namespace WebBanHangOnline.Migrations
             DropForeignKey("dbo.Customer", "District", "dbo.District");
             DropForeignKey("dbo.Customer", "City", "dbo.City");
             DropForeignKey("dbo.Customer", "Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.DistrictDetails", "WardId", "dbo.Ward");
-            DropForeignKey("dbo.DistrictDetails", "DistrictId", "dbo.District");
-            DropForeignKey("dbo.CityDetails", "DistrictId", "dbo.District");
-            DropForeignKey("dbo.CityDetails", "CityId", "dbo.City");
+            DropForeignKey("dbo.District", "CityId", "dbo.City");
+            DropForeignKey("dbo.Ward", "CityId", "dbo.DistrictId");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
@@ -392,11 +367,7 @@ namespace WebBanHangOnline.Migrations
             DropIndex("dbo.tb_Posts", new[] { "CategoryId" });
             DropIndex("dbo.tb_News", new[] { "CategoryId" });
             DropIndex("dbo.Ward", new[] { "WardId" });
-            DropIndex("dbo.DistrictDetails", new[] { "WardId" });
-            DropIndex("dbo.DistrictDetails", new[] { "DistrictId" });
             DropIndex("dbo.District", new[] { "DistrictId" });
-            DropIndex("dbo.CityDetails", new[] { "DistrictId" });
-            DropIndex("dbo.CityDetails", new[] { "CityId" });
             DropIndex("dbo.City", new[] { "CityId" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
@@ -416,9 +387,7 @@ namespace WebBanHangOnline.Migrations
             DropTable("dbo.tb_Adv");
             DropTable("dbo.Customer");
             DropTable("dbo.Ward");
-            DropTable("dbo.DistrictDetails");
             DropTable("dbo.District");
-            DropTable("dbo.CityDetails");
             DropTable("dbo.City");
         }
     }
