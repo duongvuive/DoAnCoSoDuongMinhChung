@@ -280,6 +280,7 @@
     <Compile Include="Models\CommonAbstract.cs" />
     <Compile Include="Models\Common\Filter.cs" />
     <Compile Include="Models\Common\ThongKeTruyCap.cs" />
+    <Compile Include="Models\CustomerProfile.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\EF\Adv.cs" />
     <Compile Include="Models\EF\Category.cs" />
@@ -3212,6 +3213,9 @@
     <Content Include="Content\clients\plugins\uplot\uPlot.iife.js" />
     <Content Include="Content\clients\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Content\clients\plugins\uplot\uPlot.min.css" />
+    <Content Include="Content\CustomerProfile\Customer.css" />
+    <Content Include="Content\CustomerProfile\CustomerEdit.css" />
+    <Content Include="Content\CustomerProfile\Modal.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\templates\send1.html" />
     <Content Include="Content\templates\send2.html" />
@@ -3472,6 +3476,8 @@
     <Content Include="Views\ThongTinKhachHang\ThemThongTinKH.cshtml" />
     <Content Include="Views\Shared\DistrictState.cshtml" />
     <Content Include="Views\Shared\WardState.cshtml" />
+    <Content Include="Views\ThongTinKhachHang\ProfileEdit.cshtml" />
+    <Content Include="Views\ThongTinKhachHang\AccountProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -80,9 +80,71 @@ namespace WebBanHangOnline.Controllers
         public ActionResult GetWardsByDistrictId(int DistrictId)
         {
             List<Ward>  wards= db.Wards.Where(m => m.DistrictId == DistrictId).ToList();
-            ViewBag.Ward = new SelectList(wards, "DistrictId", "Name");
+            ViewBag.Ward = new SelectList(wards, "WardId", "Name");
             return PartialView("WardState");
         }
+        public ActionResult AccountProfile()
+        {
+            string id=User.Identity.GetUserId();
+            // Khởi tạo đối tượng UserManager
+            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
+            // Lấy thông tin đầy đủ của User từ UserManager
+            var user = userManager.FindById(id);
+
+            var Customer=db.Customers.FirstOrDefault(m=>m.Id==id);
+            
+            if (Customer == null)
+            {
+                return RedirectToAction("ThemThongTinKH", "ThongTinKhachHang");
+            }
+            var City = db.Cities.FirstOrDefault(m => m.CityId == Customer.City);
+            var Ward = db.Wards.FirstOrDefault(m => m.WardId == Customer.Ward);
+            var District = db.Districts.FirstOrDefault(m => m.DistrictId == Customer.District);
+            //View Model chứa thông tin người dùng
+            CustomerProfile customerProfile = new CustomerProfile()
+            {
+                FullName = Customer.FullName,
+                Email    =user.Email,
+                Phone    = Customer.Phone,
+                Address  = Customer.Address,
+                City     = City.Name,
+                Ward     = Ward.Name,
+                District = District.Name,
+            };
+
+            return View(customerProfile);
+        }
+        public ActionResult ProfileEdit()
+        {
+            string id = User.Identity.GetUserId();
+            
+            var Customer = db.Customers.FirstOrDefault(m => m.Id == id);
+            List<City> cityList = db.Cities.ToList();
+            ViewBag.CityList = new SelectList(cityList,"CityId", "Name", Customer.City);
+            ViewBag.DistrictList = new SelectList(db.Districts, "DistrictId", "Name");
+            ViewBag.WardList = new SelectList(db.Wards, "WardId", "Name");
+            return View(Customer);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ProfileEdit([Bind(Include = "FullName,Phone,Address,City,District,Ward,LastUpdated")] Customer customer)
+        {
+            string id=User.Identity.GetUserId();
+            var Customer = db.Customers.FirstOrDefault(m => m.Id == id);
+            if (Customer != null)
+            {
+                Customer.FullName = customer.FullName;
+                Customer.Phone = customer.Phone;
+                Customer.Address = customer.Address;
+                Customer.City = customer.City;
+                Customer.Ward = customer.Ward;
+                Customer.District = customer.District;
+                Customer.LastUpdated = DateTime.Now;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+            return View(customer);
+        }
     }
 }
